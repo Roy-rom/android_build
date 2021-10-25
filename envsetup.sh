@@ -147,12 +147,12 @@ function check_product()
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
         return
     fi
-    if (echo -n $1 | grep -q -e "^arrow_") ; then
-        ARROW_BUILD=$(echo -n $1 | sed -e 's/^arrow_//g')
+    if (echo -n $1 | grep -q -e "^roy_") ; then
+        ROY_BUILD=$(echo -n $1 | sed -e 's/^roy_//g')
     else
-        ARROW_BUILD=
+        ROY_BUILD=
     fi
-    export ARROW_BUILD
+    export ROY_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
@@ -1884,5 +1884,5 @@ export ANDROID_BUILD_TOP=$(gettop)
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/arrow/build/tools/repopick.py $@
+    $T/vendor/roy/build/tools/repopick.py $@
 }
