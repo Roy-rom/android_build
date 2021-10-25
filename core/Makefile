@@ -5391,13 +5391,15 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(OTA_FROM_TARGET_
 	@echo "Package OTA: $@"
 	$(call build-ota-package-target,$@,-k $(KEY_CERT_PAIR) --output_metadata_path $(INTERNAL_OTA_METADATA))
 
-ARROW_TARGET_PACKAGE := $(PRODUCT_OUT)/$(ARROW_VERSION).zip
+ROY_TARGET_PACKAGE := $(PRODUCT_OUT)/$(ROY_VERSION).zip
 
-.PHONY: otapackage bacon
+.PHONY: otapackage bacon roy
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(ARROW_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(ARROW_TARGET_PACKAGE) > $(ARROW_TARGET_PACKAGE).md5sum
+bacon: roy
+roy: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(ROY_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(TARGET_PACKAGE) > $(ROY_TARGET_PACKAGE).md5sum
 	echo -e "========================================="
 	echo -e ""
 	echo -e "                 \033[1;34m''\033[0m                  "
@@ -5417,11 +5419,11 @@ bacon: otapackage
 	echo -e "        \`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\` \`\` \033[1;34m.   \033[0m"
 	echo -e "           \`\`\`\`\`\`\`\`\`\`\`\`\`\`\`\`          "
 	echo -e ""
-	echo -e "                ArrowOS"
+	echo -e "                RoyOS"
 	echo -e ""
 	echo -e "========================================="
 	echo -e ""
-	@echo "**Package complete"**: $(ARROW_TARGET_PACKAGE)"
+	@echo "**Package complete"**: $(ROY_TARGET_PACKAGE)"
 
 ifeq ($(BOARD_BUILD_RETROFIT_DYNAMIC_PARTITIONS_OTA_PACKAGE),true)
 name := $(product_name)-ota-retrofit-$(FILE_NAME_TAG)
